@@ -194,7 +194,6 @@ cmd /c ""$(ProjectDir)..\..\filecopy.bat" "$(SolutionDir)../../network" "" "delt
     <ClCompile Include="..\..\dlls\skill.cpp" />
     <ClCompile Include="..\..\dlls\sound.cpp" />
     <ClCompile Include="..\..\dlls\soundent.cpp" />
-    <ClCompile Include="..\..\dlls\Source.cpp" />
     <ClCompile Include="..\..\dlls\spectator.cpp" />
     <ClCompile Include="..\..\dlls\squadmonster.cpp" />
     <ClCompile Include="..\..\dlls\squeakgrenade.cpp" />
@@ -220,6 +219,7 @@ cmd /c ""$(ProjectDir)..\..\filecopy.bat" "$(SolutionDir)../../network" "" "delt
     <ClCompile Include="..\..\pm_shared\pm_math.cpp" />
     <ClCompile Include="..\..\pm_shared\pm_shared.cpp" />
     <ClCompile Include="..\..\public\interface.cpp" />
+    <ClCompile Include="TestMyAss.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\common\beamdef.h" />
