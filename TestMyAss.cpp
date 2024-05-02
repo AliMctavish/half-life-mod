@@ -9,6 +9,7 @@ public:
 	void Spawn() override;
 	void Use(CBaseEntity* pActivator, CBaseEntity* pCaller, USE_TYPE useType, float value) override;
 	void Think() override;
+	void Touch(CBaseEntity* pOther) override;
 };
 
 LINK_ENTITY_TO_CLASS(trigger_my_ass, TestMyAss)
@@ -18,7 +19,9 @@ void TestMyAss::Spawn()
 	// do nothing sir !
 	//ALERT(at_console, "%s\n", STRING(pev->message));
 	pev->nextthink = gpGlobals->time;
-	//SET_MODEL(edict(), STRING(pev->model));
+	pev->movetype = MOVETYPE_PUSH;
+	pev->solid = SOLID_TRIGGER;
+	SET_MODEL(edict(), STRING(pev->model));
 }
 
 
@@ -26,14 +29,22 @@ void TestMyAss::Use(CBaseEntity* pActivator, CBaseEntity* pCaller, USE_TYPE useT
 {
 	if (pActivator->IsPlayer())
 	{
-		//pActivator->pev->health++;
-		pActivator->pev->takedamage++;
+		ALERT(at_console, "%s\n", "print me !");
+		pActivator->pev->health = 100;
 	}
-
 }
 
 void TestMyAss::Think()
 {
 	UTIL_Sparks(pev->origin);
 	pev->nextthink = gpGlobals->time + 0.2;
+}
+
+void TestMyAss::Touch(CBaseEntity* pOther)
+{
+	if (pOther->IsPlayer())
+	{
+		ALERT(at_console, "drink my ass");
+		pev->velocity.z++;
+	}
 }
