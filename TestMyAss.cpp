@@ -1,6 +1,7 @@
 #include "extdll.h"
 #include "util.h"
 #include "cbase.h"
+#include "explode.h"
 
 
 class TestMyAss : public CBaseEntity
@@ -52,7 +53,8 @@ void TestMyAss::Touch(CBaseEntity* pOther)
 {
 	if (pOther->IsPlayer())
 	{
-		ALERT(at_console, "the universe is expanding");
+		ALERT(at_console, "teeeez");
+		ExplosionCreate(pev->origin, pev->origin, edict(), 40, true);
 		IsTriggerd = !IsTriggerd;
 	}
 }
