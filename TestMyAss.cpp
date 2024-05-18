@@ -41,12 +41,10 @@ void TestMyAss::Use(CBaseEntity* pActivator, CBaseEntity* pCaller, USE_TYPE useT
 void TestMyAss::Think()
 {
 	UTIL_Sparks(pev->origin);
-	pev->nextthink = gpGlobals->time + 0.2;
 
-	if (IsTriggerd)
-		pev->velocity.x++;
-	else
-		pev->velocity.z++;
+	ALERT(at_console, "this is testmyass timer for think method");
+
+	pev->nextthink = gpGlobals->time + 0.2;
 }
 
 void TestMyAss::Touch(CBaseEntity* pOther)
