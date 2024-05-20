@@ -15,7 +15,7 @@ LINK_ENTITY_TO_CLASS(trigger_trampoline, Trampoline);
 void Trampoline::Spawn()
 {
 	pev->movetype = MOVETYPE_NONE;
-	pev->solid = SOLID_BBOX;
+	pev->solid = SOLID_TRIGGER;
 	SET_MODEL(edict(), STRING(pev->model));
 }
 
@@ -32,6 +32,6 @@ void Trampoline::Touch(CBaseEntity* pOther)
 	if (pOther->IsPlayer())
 	{
 		pOther->pev->velocity.x+= 500;
-		// ALERT(at_console, "mother fuckeriuos");
+		ALERT(at_console, "mother fuckeriuos");
 	}
 }
