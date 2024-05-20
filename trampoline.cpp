@@ -31,7 +31,7 @@ void Trampoline::Touch(CBaseEntity* pOther)
 {
 	if (pOther->IsPlayer())
 	{
-		// pOther->pev->velocity.z+= 500;
+		pOther->pev->velocity.x+= 500;
 		// ALERT(at_console, "mother fuckeriuos");
 	}
 }

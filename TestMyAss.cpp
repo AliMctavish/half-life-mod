@@ -29,7 +29,7 @@ void TestMyAss::Spawn()
 void TestMyAss::Use(CBaseEntity* pActivator, CBaseEntity* pCaller, USE_TYPE useType, float value)
 {
 	pActivator->pev->origin.x++;
-	if (pActivator->IsPlayer())
+	if (pActivator->IsPlayer() && useType == USE_TYPE::USE_TOGGLE)
 	{
 		ALERT(at_console, "%s\n", "print me !");
 		ALERT(at_console, "%f\n", pActivator->pev->origin.x);
