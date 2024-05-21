@@ -6,11 +6,12 @@ class CFadeFunc : public CBaseEntity
 {
 public:
 	void Spawn() override;
+
 private:
-	float looper;
+	bool KeyValue(KeyValueData* pkvd) override;
 	void FadeIn();
 	void FadeOut();
-	float test; 
+	int m_printMode = at_console;
 };
 
 LINK_ENTITY_TO_CLASS(fade_function, CFadeFunc)
@@ -27,12 +28,26 @@ void CFadeFunc::Spawn()
 	pev->movetype = MOVETYPE_FLY;
 	SetThink(&CFadeFunc::FadeIn);
 	pev->nextthink = gpGlobals->time;
-	
 }
 
 
+bool CFadeFunc::KeyValue(KeyValueData* pkvd)
+{
+	if (FStrEq(pkvd->szKeyName, "printMode"))
+	{
+		m_printMode = atoi(pkvd->szValue);
+		pkvd->fHandled = true;
+		return true;
+	}
+	else
+		return CBaseEntity::KeyValue(pkvd);
+}
+
 void CFadeFunc::FadeIn()
 {
+	CBaseEntity* e =  UTIL_FindEntityByTargetname(nullptr, "test");
+
+
 	CBaseEntity* player = CBaseEntity::Instance(g_engfuncs.pfnPEntityOfEntIndex(1));
 
 	auto distance = player->pev->origin - pev->origin;
@@ -41,14 +56,19 @@ void CFadeFunc::FadeIn()
 
 	float nor = atan2(distance.x, distance.y) * -1;
 
-	ALERT(at_console, "value %f \n", nor);
-
-	pev->angles = Vector(0,(nor * 50) + 70, 0);
+	pev->angles = Vector(0, (nor * 50) + 70, 0);
 
 	pev->renderamt++;
 
-	if (pev->renderamt >= 255) {}
-		//SetThink(&CFadeFunc::FadeOut);
+	if (pev->renderamt >= 255)
+		SetThink(&CFadeFunc::FadeOut);
+
+	if (Intersects(player))
+	{
+		player->pev->health--;
+		ALERT((ALERT_TYPE)m_printMode, "your health is decreasing !n\\");
+		ALERT((ALERT_TYPE)m_printMode, "health : %f", pev->health);
+	}
 
 
 	pev->nextthink = gpGlobals->time + 0.0001;
