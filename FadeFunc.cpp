@@ -10,8 +10,11 @@ public:
 private:
 	bool KeyValue(KeyValueData* pkvd) override;
 	void FadeIn();
+	void Use(CBaseEntity* pActivator, CBaseEntity* pCaller, USE_TYPE useType, float value);
 	void FadeOut();
 	int m_printMode = at_console;
+	CBaseEntity* e = nullptr;
+	bool m_clicked = false;
 };
 
 LINK_ENTITY_TO_CLASS(fade_function, CFadeFunc)
@@ -28,6 +31,7 @@ void CFadeFunc::Spawn()
 	pev->movetype = MOVETYPE_FLY;
 	SetThink(&CFadeFunc::FadeIn);
 	pev->nextthink = gpGlobals->time;
+	e = UTIL_FindEntityByTargetname(e, "test");
 }
 
 
@@ -45,20 +49,11 @@ bool CFadeFunc::KeyValue(KeyValueData* pkvd)
 
 void CFadeFunc::FadeIn()
 {
-	CBaseEntity* e =  UTIL_FindEntityByTargetname(nullptr, "test");
-
-	FIND_ENTITY_BY_TARGETNAME()
-
 	CBaseEntity* player = CBaseEntity::Instance(g_engfuncs.pfnPEntityOfEntIndex(1));
-
 	auto distance = player->pev->origin - pev->origin;
-
 	pev->velocity = distance;
-
 	float nor = atan2(distance.x, distance.y) * -1;
-
 	pev->angles = Vector(0, (nor * 50) + 70, 0);
-
 	pev->renderamt++;
 
 	if (pev->renderamt >= 255)
@@ -72,7 +67,16 @@ void CFadeFunc::FadeIn()
 	}
 
 
+	if (m_clicked)
+		e->pev->velocity.z++;
+
 	pev->nextthink = gpGlobals->time + 0.0001;
+}
+
+void CFadeFunc::Use(CBaseEntity* pActivator, CBaseEntity* pCaller, USE_TYPE useType, float value)
+{
+	if (pActivator->IsPlayer() && e != nullptr)
+		m_clicked = true;
 }
 
 void CFadeFunc::FadeOut()
