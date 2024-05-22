@@ -47,6 +47,7 @@ void CFadeFunc::FadeIn()
 {
 	CBaseEntity* e =  UTIL_FindEntityByTargetname(nullptr, "test");
 
+	FIND_ENTITY_BY_TARGETNAME()
 
 	CBaseEntity* player = CBaseEntity::Instance(g_engfuncs.pfnPEntityOfEntIndex(1));
 
